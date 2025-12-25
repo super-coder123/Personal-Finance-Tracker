@@ -225,6 +225,34 @@ export const userSlice = createSlice({
           state.budgets= action.payload.budgets;
       })
 
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.status = "loading";
+      })
+
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        console.log("FETCH USER PAYLOAD 👉", action.payload);
+
+        if (action.payload) {
+          state.isLoggedIn = true;
+          state.fullname = action.payload.fullname;
+          state.email = action.payload.email;
+          state.phone = action.payload.phone;
+          state.address = action.payload.address;
+          state.image = action.payload.image;
+          state.transactions = action.payload.transactions || [];
+          state.budgets = action.payload.budgets || [];
+        } else {
+          state.isLoggedIn = false;
+        }
+      })
+
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        state.status = "succeeded"; // IMPORTANT ❗
+        state.isLoggedIn = false;
+      })
+
+
       .addMatcher(
         (action) => [registerUser.pending.type, loginUser.pending.type].includes(action.type),
         (state) => {
@@ -252,9 +280,7 @@ export const userSlice = createSlice({
           state.error = action.payload || 'Authentication failed.';
           state.isLoggedIn = false;
         }
-      );
-   
-      
+      );      
   },
 });
 

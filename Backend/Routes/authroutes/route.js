@@ -14,13 +14,51 @@ const isAuthenticated = (req, res, next) => {
     return res.status(401).json({ success: false, message: "Unauthorized." });
 };
 
-router.get('/me', (req, res) => {
-  if (req.isAuthenticated && req.isAuthenticated()) {
-    const { _id, fullname, email, image,phone ,address } = req.user;
-    return res.status(200).json({ success: true, user: { _id, fullname, email,image,phone,address } });
+// router.get('/me', (req, res) => {
+//   if (req.isAuthenticated && req.isAuthenticated()) {
+//     const { _id, fullname, email, image,phone ,address } = req.user;
+//     return res.status(200).json({ success: true, user: { _id, fullname, email,image,phone,address } });
+//   }
+//   return res.status(200).json({ success: true, user: null });
+// });
+
+
+router.get('/me', async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ success: false, user: null });
   }
-  return res.status(200).json({ success: true, user: null });
+
+  try {
+    // Fetch fresh document from DB
+   const user = await User.findById(req.user._id).lean();
+
+    if (!user) {
+      return res.status(404).json({ success: false, user: null });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      user: {
+        _id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        image: user.image,
+        transactions: user.transactions, 
+        budgets: user.budgets
+      }
+    });
+
+  } catch (err) {
+    console.error("Error fetching current user:", err);
+    return res.status(500).json({ success: false, user: null });
+  }
 });
+
+
+
 
 
 // Registration Route

@@ -15,6 +15,10 @@ axios.defaults.baseURL = "http://localhost:3000";
 
 function App() {
   const dispatch = useDispatch();
+    useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
 
   const { status } = useSelector((state) => state.user);
 
@@ -31,10 +35,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="grid grid-cols-[250px_1fr] h-screen">
+      <div className="w-full flex gap-2 h-screen">
         <Sidebar />
 
-        <div className="p-6 overflow-auto">
+        <div className="w-full p-4 border-r-2 overflow-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />

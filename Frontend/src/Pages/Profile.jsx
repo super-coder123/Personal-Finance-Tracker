@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { updateUserProfile , logoutUser, logout} from "../Features/UserSlice";
+import { updateUserProfile , logoutUser, logout, fetchCurrentUser} from "../Features/UserSlice";
 import { persistor } from "../Features/Store/Store";
 
 
@@ -78,7 +78,7 @@ const Profile = () => {
         setImagetadd(null); 
         setImagetaddFile(null);
         setImageKey(prevKey => prevKey + 1); 
-        
+        dispatch(fetchCurrentUser());   
    } catch(error) {
       console.log("Profile update failed:", error);
     }
@@ -189,7 +189,7 @@ const handlelogin = async () => {
                 onChange={handleChange}
                 className="w-full border p-3 rounded-xl focus:ring focus:ring-blue-400"
               />
-            </div>
+            </div>d
           </div>
 
           <button

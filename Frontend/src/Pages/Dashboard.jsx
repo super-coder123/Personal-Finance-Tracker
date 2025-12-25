@@ -56,7 +56,7 @@ const pieData = [
   
 
   return (
-    <div className="min-h-screen w-full bg-gray-100 flex">
+    <div className="min-h-screen w-full rounded-xl bg-gray-100 flex">
       <main className="flex-1 p-6">
           {/* header */}
           <div className="flex justify-between items-center">

@@ -16,11 +16,11 @@ const Transactions = () => {
   //   { id: 3, type: "income", amount: 2000, category: "Freelance", date: "2025-01-13", note: "React project" },
   //   { id: 4, type: "expense", amount: 800, category: "Transport", date: "2025-01-15", note: "Fuel" },
   // ]);
-
+  const profile=useSelector((state) => state.user)
   const budgets = useSelector((state) => state.user.budgets);
-
   const transactions = useSelector((state) => state.user.transactions)
-
+  // console.log(" user transction",transactions)
+  console.log("current user ",profile);
   const [newTx, setNewTx] = useState({
     type: "income",
     amount: "",
@@ -39,8 +39,8 @@ const Transactions = () => {
   // FILTER & SEARCH LOGIC
   const filteredTransactions = transactions.filter((tx) => {
     const matchesSearch =
-      tx.note.toLowerCase().includes(search.toLowerCase()) ||
-      tx.category.toLowerCase().includes(search.toLowerCase());
+      tx?.note?.toLowerCase().includes(search.toLowerCase()) ||
+      tx?.category?.toLowerCase().includes(search.toLowerCase());
 
     const matchesFilter = filter === "all" || tx.type === filter;
 
@@ -308,7 +308,7 @@ const Transactions = () => {
             type="number"
             name="limit"
             placeholder="limit"
-            value={newbd.amount}
+            value={newbd.limit}
             onChange={handleNewbdChange}
             className="border rounded-lg px-3 py-2"
           />
@@ -317,7 +317,7 @@ const Transactions = () => {
             type="number"
             name="spent"
             placeholder="spent"
-            value={newbd.amount}
+            value={newbd.spent}
             onChange={handleNewbdChange}
             className="border rounded-lg px-3 py-2"
           />
