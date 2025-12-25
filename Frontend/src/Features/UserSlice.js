@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'; 
 import axios from 'axios'; 
 
-const API_URL = 'https://personal-finance-tracker-backend-nx7k.onrender.com'; 
+const API_URL = 'https://personal-finance-tracker-1tfx.onrender.com'; 
 
 
  const initialState = {
